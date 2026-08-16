@@ -2,11 +2,9 @@
 
 Page under test: `https://applynow.cimb.com.my/eform-app/loans/calculator?action=calc&language=en`
 
-Every rule below was checked against the live page before writing the corresponding test - none
-of this is assumed from reading the markup. IDs here match the test titles in the code and the
-rows in `CIMB_Loan_Calculator_Test_Cases.xlsx` one-to-one. Implemented across
-`tests/specs/loanCalculator.validation.spec.js` (field-level, TC001–TC028),
-`tests/specs/loanCalculator.e2e.spec.js` (end-to-end scenario, TC029), and
+IDs here match the test titles in the code and the rows in `CIMB_Loan_Calculator_Test_Cases.xlsx`
+one-to-one. Implemented across `tests/specs/loanCalculator.validation.spec.js` (field-level,
+TC001–TC028), `tests/specs/loanCalculator.e2e.spec.js` (end-to-end scenario, TC029), and
 `tests/specs/loanCalculator.language.spec.js` (EN/BM toggle, TC030–TC032).
 
 | ID | Area | Scenario | Input | Expected Result |
@@ -36,25 +34,15 @@ rows in `CIMB_Loan_Calculator_Test_Cases.xlsx` one-to-one. Implemented across
 | TC031 | Language | Toggle to Bahasa Malaysia and back | Click the EN/BM toggle twice | Field labels and Next button text switch to BM, then switch back to English on the second click - no separate language menu, it's a straight toggle |
 | TC032 | Language | Validation messages in BM | Toggle to BM, then leave Income/Loan Amount empty | Errors appear in Bahasa Malaysia ("Pendapatan kasar bulanan minimum adalah MYR 2,000." / "Jumlah pinjaman minimum adalah MYR 2,000.") |
 
-## Cross-check against the sample test case sheet
+## A few things worth flagging
 
-TC007, TC008, TC009, and TC030–TC032 above were added after comparing this suite against a
-separately-provided sample test case sheet for the same page, which covered a few areas this
-suite didn't yet have (interest rate/repayment display, income masking, and the language
-toggle). Everything else in that sheet was already covered here under different IDs.
-
-A few things in that sheet didn't match what the live page actually does, confirmed by
-re-checking directly rather than taking either source on faith:
-
-- It expects the page title to read "Personal Loan Calculator." The actual `document.title` is
-  **"Cash Plus Personal Loan"** - "Personal Loan Calculator" is the on-page heading text, not
-  the title. TC001 asserts the real title.
-- It expects the Tenure dropdown to have 4 options (24/36/48/60 Months). The live dropdown has
-  **6** (24/36/48/60/72/84 Months), confirmed twice on separate runs. TC020 asserts the verified 6.
-- It has a case for "Income and Loan Amount valid, Tenure left unselected, Next stays disabled."
-  That state isn't reachable on the live form - entering a valid Income auto-selects Tenure to
-  60 Months as a side effect (TC006), so you can never get a valid Income *and* Loan Amount with
-  Tenure still empty. Not implemented as its own case for that reason.
+- Page title is **"Cash Plus Personal Loan"** (`document.title`), not "Personal Loan Calculator" -
+  that's the on-page heading text, easy to mix up. TC001 asserts the real title.
+- Tenure dropdown has **6** options (24/36/48/60/72/84 Months), not 4 - checked twice to be sure.
+  TC020 asserts the verified 6.
+- "Income and Loan Amount valid, Tenure left unselected" isn't a reachable state - a valid Income
+  auto-selects Tenure to 60 Months as a side effect (TC006), so Tenure is never actually empty
+  once both money fields are valid. Not worth its own test case for that reason.
 
 ## Notes / out of scope
 
