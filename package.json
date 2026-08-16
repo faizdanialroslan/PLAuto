@@ -1,0 +1,26 @@
+{
+  "name": "cimb-loan-calculator-automation",
+  "version": "1.0.0",
+  "description": "Playwright automation suite for the CIMB Cash Plus Personal Loan Calculator (validation + happy-path E2E)",
+  "private": true,
+  "scripts": {
+    "test": "./scripts/run-tests.sh",
+    "test:headed": "playwright test --headed",
+    "test:watch": "SLOWMO=750 playwright test --project=chromium --headed --workers=1",
+    "test:ui": "playwright test --ui",
+    "test:validation": "playwright test tests/specs/loanCalculator.validation.spec.js",
+    "test:e2e": "playwright test tests/specs/loanCalculator.e2e.spec.js",
+    "test:language": "playwright test tests/specs/loanCalculator.language.spec.js",
+    "report": "pkill -f 'playwright show-report' 2>/dev/null; sleep 1; (playwright show-report reports/playwright-html --port 9323 >/dev/null 2>&1 &); for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20; do curl -s -o /dev/null http://localhost:9323 && break; sleep 0.5; done; ./scripts/reopen-chrome-tab.sh http://localhost:9323; echo 'Playwright HTML report: http://localhost:9323'",
+    "allure:generate": "JAVA_HOME=\"$HOME/.local/share/temurin-jre-21/Contents/Home\" PATH=\"$HOME/.local/share/temurin-jre-21/Contents/Home/bin:$PATH\" allure generate reports/allure-results --clean -o reports/allure-report",
+    "allure:open": "pkill -f 'allure-commandline.*open' 2>/dev/null; sleep 1; (JAVA_HOME=\"$HOME/.local/share/temurin-jre-21/Contents/Home\" PATH=\"$HOME/.local/share/temurin-jre-21/Contents/Home/bin:$PATH\" allure open -p 52222 reports/allure-report >/dev/null 2>&1 &); for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20; do curl -s -o /dev/null http://127.0.0.1:52222 && break; sleep 0.5; done; ./scripts/reopen-chrome-tab.sh http://127.0.0.1:52222; echo 'Allure report: http://127.0.0.1:52222'",
+    "test:xlsx": "./scripts/run-tests-xlsx.sh",
+    "test:report": "./scripts/run-tests.sh"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0",
+    "allure-commandline": "^2.30.0",
+    "allure-playwright": "^3.0.5",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
+  }
+}
